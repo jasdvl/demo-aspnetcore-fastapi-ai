@@ -7,6 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIxplorer.Server", "AIxplor
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "aixplorer.client", "aixplorer.client\aixplorer.client.esproj", "{DB9D5013-036A-429D-A949-AE120E8948BD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projektmappenelemente", "Projektmappenelemente", "{62319EAC-ADB1-4EB0-A9B3-49684870F4CB}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
