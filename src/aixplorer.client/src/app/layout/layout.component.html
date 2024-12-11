@@ -1,0 +1,48 @@
+<div class="flex flex-col min-h-screen">
+    <header class="relative">
+        <nav class="bg-header px-4 py-2 flex items-center justify-between">
+            <div class="text-white text-xl font-semi-bold">AIxplorer</div>
+            <div class="flex items-center space-x-6">
+                <button id="toggleBtn" class="text-white flex items-center z-510 relative" (click)="toggleSidebar()">
+                    <svg *ngIf="!isSidebarOpen" class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                    <svg *ngIf="isSidebarOpen" class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+
+        <aside class="fixed top-0 right-0 h-full bg-menu text-white w-1/2 md:w-1/4 z-500 transform transition-transform duration-300 ease-in-out"
+               [ngClass]="{'translate-x-0': isSidebarOpen, 'translate-x-full': !isSidebarOpen}">
+
+            <div class="p-4 mt-16">
+                <ul class="space-y-4 pl-4 pr-4">
+
+                    <li>
+                        <a class="hover:text-gray-300" routerLink="/computer-vision/image-recognition" (click)="closeSidebar()">Image Recognition</a>
+                    </li>
+                    <li>
+                        <a class="hover:text-gray-300" routerLink="/machine-learning/regression" (click)="closeSidebar()">Regression</a>
+                    </li>
+                    <li>
+                        <a class="hover:text-gray-300" routerLink="/nlp/sentiment-analysis" (click)="closeSidebar()">Sentiment Analysis</a>
+                    </li>
+                    <li class="py-2">
+                        <hr class="border-t border-gray-600">
+                    </li>
+                    <li>
+                        <a class="hover:text-gray-300" routerLink="/info/technical-notes" (click)="closeSidebar()">Technical Notes</a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+    </header>
+    <main class="flex-grow overflow-y-auto bg-primary" (click)="closeSidebar()">
+        <router-outlet></router-outlet>
+    </main>
+    <footer class="bg-footer text-white text-center p-3 font-inter font-regular text-sm">
+        
+    </footer>
+</div>

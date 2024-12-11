@@ -7,4 +7,12 @@
     <!-- Folder where production build objects will be placed -->
     <BuildOutputFolder>$(MSBuildProjectDirectory)\dist\aixplorer.client\browser\</BuildOutputFolder>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="src\app\features\**" />
+    <TypeScriptConfiguration Remove="src\app\features\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src\app\layout\" />
+    <Folder Include="src\app\modules\natural-language-processing\" />
+  </ItemGroup>
 </Project>

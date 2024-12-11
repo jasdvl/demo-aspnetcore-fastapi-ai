@@ -2,11 +2,11 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "chrome",
-      "request": "launch",
-      "name": "localhost (Chrome)",
-      "url": "http://localhost:54416",
-      "webRoot": "${workspaceFolder}"
+        "type": "chrome",
+        "request": "launch",
+        "name": "localhost (Chrome)",
+        "url": "http://localhost:7300",
+        "webRoot": "${workspaceFolder}"
     }
   ]
 }
