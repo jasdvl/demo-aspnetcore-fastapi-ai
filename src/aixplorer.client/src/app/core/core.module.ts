@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { APP_INITIALIZER, NgModule, Optional, SkipSelf } from '@angular/core';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { NgModule, Optional, SkipSelf } from '@angular/core';
 
 @NgModule({
     declarations: [],
     imports: [CommonModule],
     providers: [
-        
+        provideHttpClient(withInterceptorsFromDi())
     ],
 })
 export class CoreModule
