@@ -4,12 +4,24 @@
             <div class="text-white text-xl font-semi-bold">AIxplorer</div>
             <div class="flex items-center space-x-6">
                 <button id="toggleBtn" class="text-white flex items-center z-510 relative" (click)="toggleSidebar()">
-                    <svg *ngIf="!isSidebarOpen" class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    <svg *ngIf="!isSidebarOpen" class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <rect x="3" y="3" width="6" height="6" />
+                        <rect x="10.2" y="3" width="6" height="6" />
+                        <rect x="17.4" y="3" width="6" height="6" />
+
+                        <rect x="3" y="10.2" width="6" height="6" />
+                        <rect x="10.2" y="10.2" width="6" height="6" />
+                        <rect x="17.4" y="10.2" width="6" height="6" />
+
+                        <rect x="3" y="17.4" width="6" height="6" />
+                        <rect x="10.2" y="17.4" width="6" height="6" />
+                        <rect x="17.4" y="17.4" width="6" height="6" />
                     </svg>
-                    <svg *ngIf="isSidebarOpen" class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                    <svg *ngIf="isSidebarOpen" class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5.293 5.293a1 1 0 011.414 0L12 10.586l5.293-5.293a1 1 0 111.414 1.414L13.414 12l5.293 5.293a1 1 0 01-1.414 1.414L12 13.414l-5.293 5.293a1 1 0 01-1.414-1.414L10.586 12 5.293 6.707a1 1 0 010-1.414z" />
                     </svg>
+
+
                 </button>
             </div>
         </nav>

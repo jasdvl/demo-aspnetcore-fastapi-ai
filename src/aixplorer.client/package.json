@@ -1,13 +1,13 @@
 {
   "name": "aixplorer.client",
   "version": "0.0.0",
-  "scripts": {
-    "ng": "ng",
-    "start": "ng serve --host=0.0.0.0",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test"
-  },
+    "scripts": {
+        "ng": "ng",
+        "start": "ng serve --host 0.0.0.0 --port 7300",
+        "build": "ng build",
+        "watch": "ng build --watch --configuration development",
+        "test": "ng test"
+    },
   "private": true,
   "dependencies": {
     "@angular/animations": "^18.2.0",
