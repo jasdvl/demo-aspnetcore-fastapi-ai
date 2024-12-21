@@ -1,3 +1,5 @@
+using AIxplorer.Server.Services;
+
 namespace AIxplorer.Server.Bootstrap;
 
 /// <summary>
@@ -11,20 +13,29 @@ namespace AIxplorer.Server.Bootstrap;
 /// </remarks>
 public class MiddlewareConfigurator
 {
+    /// <summary>
+    /// Configures the HTTP request pipeline for the application, including development-specific features like Swagger,
+    /// OpenAPI, and gRPC Reflection. Sets up routing, CORS policies, and gRPC services.
+    /// </summary>
+    /// <param name="app">The <see cref="WebApplication"/> instance.</param>
+    /// <param name="env">The <see cref="IWebHostEnvironment"/> representing the hosting environment.</param>
     public static void Configure(WebApplication app, IWebHostEnvironment env)
     {
-        // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
             app.UseSwaggerUI();
             app.MapOpenApi();
+
+            // Enables gRPC Reflection for tools like grpcurl to discover gRPC services. Useful for debugging.
+            app.MapGrpcReflectionService();
         }
 
         // app.UseHttpsRedirection();
         app.UseCors("AllowOrigin");
 
         app.ConfigureRoutes();
-        //app.UseAntiforgery();
+
+        app.MapGrpcService<VisualDataInterpretationService>();
     }
 }

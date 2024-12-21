@@ -1,3 +1,4 @@
+using AIxplorer.AI.ComputerVision.VisualDataInterpretation;
 using AIxplorer.Server.Services;
 
 namespace AIxplorer.Server.Bootstrap;
@@ -41,15 +42,26 @@ public class CompositionRoot
         return builder;
     }
 
-    private void ConfigureAndRegisterServices(IServiceCollection services, IConfiguration configuration, IWebHostEnvironment environment)
+    private void ConfigureAndRegisterServices(
+                                            IServiceCollection services,
+                                            IConfiguration configuration,
+                                            IWebHostEnvironment environment)
     {
         ConfigureServices(services, configuration);
 
-        RegisterServices(services);
+        var logger = services.BuildServiceProvider().GetRequiredService<ILogger<CompositionRoot>>();
+
+        RegisterServices(logger, services, configuration);
     }
 
     private void ConfigureServices(IServiceCollection services, IConfiguration configuration)
     {
+        services.AddLogging(loggingBuilder =>
+        {
+            loggingBuilder.AddConfiguration(configuration.GetSection("Logging"));
+            loggingBuilder.AddConsole();
+        });
+
         // About configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
@@ -65,19 +77,29 @@ public class CompositionRoot
             options.AddPolicy("AllowOrigin",
                 builder =>
                 {
-                    builder.WithOrigins("http://localhost:7300")
+                    builder.WithOrigins("http://localhost:4200", "http://localhost:10000", "http://host.docker.internal:10000")
                             .AllowAnyMethod()
                             .AllowAnyHeader()
                             .SetPreflightMaxAge(preflightMaxAge);
                 });
         });
 
-        //services.AddAntiforgery();
+        services.AddGrpc(options =>
+        {
+            // 25 MB
+            options.MaxReceiveMessageSize = 25 * 1024 * 1024;
+        });
+        services.AddGrpcReflection();
     }
 
-    private void RegisterServices(IServiceCollection services)
+    private void RegisterServices(ILogger<CompositionRoot> logger, IServiceCollection services, IConfiguration configuration)
     {
-        services.AddScoped<IImageRecognitionService, ImageRecognitionService>();
+        // path for AI model
+        var modelPath = configuration["ModelConfiguration:ModelPath"];
 
+        logger.LogInformation("Model path: {ModelPath}", modelPath);
+        services.AddSingleton<ImageAnalyzer>(sp => new ImageAnalyzer(modelPath));
+
+        services.AddScoped<IVisualDataInterpretationService, VisualDataInterpretationService>();
     }
 }

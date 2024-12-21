@@ -1,6 +1,6 @@
 @AIxplorer_HostAddress = http://localhost:5001
 
-GET {{AIxplorer_HostAddress}}/weatherforecast/
+GET {{AIxplorer_HostAddress}}/api/computer-vision/image-interpretation/
 Accept: application/json
 
 ###
