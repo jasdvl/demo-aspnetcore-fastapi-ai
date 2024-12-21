@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+option csharp_namespace = "AIxplorer.Grpc.Contracts.ComputerVision";
+
+package computer_vision;
+
+import "google/api/annotations.proto";
+
+// Response containing the result of image interpretation
+message ImageInterpretationResult {
+    // A textual description of the interpreted image
+    string description = 1;
+}
+
+// Request for processing an image
+message ImageInterpretationRequest {
+    // Base64-encoded image data
+    string image_base64 = 1;
+
+    // Original file name of the image
+    string file_name = 2;
+}
+
+// Service for processing and interpreting images
+service ImageInterpretationService {
+    // Processes an image and returns its interpretation
+    rpc ProcessImage (ImageInterpretationRequest) returns (ImageInterpretationResult) {
+        option (google.api.http) = {
+        post: "/api/computer-vision/image-interpretation"
+        body: "*"
+    };
+  }
+}
