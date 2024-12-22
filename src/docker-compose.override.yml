@@ -1,0 +1,12 @@
+services:
+    aixplorer.proxy:
+        container_name: AIxplorer.Proxy
+        restart: always  
+        ports:
+            - "10000:10000"  # gRPC
+            - "9901:9901"    # Admin
+        volumes:
+            - ./AIxplorer.Proxy/envoy-custom.yaml:/etc/envoy/envoy.yaml
+            - ./AIxplorer.Proxy/grpc_service_descriptors.pb:/etc/envoy/grpc_service_descriptors.pb
+
+        
