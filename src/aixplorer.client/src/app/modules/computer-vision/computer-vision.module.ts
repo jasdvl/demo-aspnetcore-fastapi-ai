@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ComputerVisionRoutingModule } from './computer-vision-routing.module';
-import { ImageRecognitionComponent } from './image-recognition/image-recognition.component';
+import { ImageInterpretationComponent } from './components/image-interpretation/image-interpretation';
 
 @NgModule({
-    declarations: [ImageRecognitionComponent],
+    declarations: [ImageInterpretationComponent],
     imports: [CommonModule, ComputerVisionRoutingModule]
 })
 export class ComputerVisionModule { }

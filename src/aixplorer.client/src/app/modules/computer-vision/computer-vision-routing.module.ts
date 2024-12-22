@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ImageRecognitionComponent } from './image-recognition/image-recognition.component';
+import { ImageInterpretationComponent } from './components/image-interpretation/image-interpretation';
 
 const routes: Routes = [
     //{
-    //    path: 'image-recognition', component: ImageRecognitionComponent
+    //    path: 'image-interpretation', component: ImageInterpretationComponent
     //}
     {
         path: '',
         children: [
-            { path: 'image-recognition', component: ImageRecognitionComponent }
+            { path: 'image-interpretation', component: ImageInterpretationComponent }
         ]
     }
 ];
