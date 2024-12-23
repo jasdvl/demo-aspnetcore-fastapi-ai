@@ -34,8 +34,6 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="app\api\image2image_generator.py" />
-    <Compile Include="app\api\image_generator.py" />
     <Compile Include="config.py">
       <SubType>Code</SubType>
     </Compile>
@@ -58,9 +56,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include=".env.example" />
-    <Content Include=".env">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="requirements.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.Web.targets" />
