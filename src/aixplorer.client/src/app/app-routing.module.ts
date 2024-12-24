@@ -14,6 +14,10 @@ const routes: Routes = [
         path: 'machine-learning',
         loadChildren: () => import('./modules/machine-learning/machine-learning.module').then((m) => m.MachineLearningModule)
     },
+    {
+        path: 'generative-ai',
+        loadChildren: () => import('./modules/generative-ai/generative-ai.module').then((m) => m.GenerativeAiModule)
+    },
     { path: '**', redirectTo: '' },
 ];
 

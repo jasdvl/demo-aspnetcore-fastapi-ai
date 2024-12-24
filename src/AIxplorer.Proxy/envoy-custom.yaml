@@ -1,0 +1,88 @@
+static_resources:
+    listeners:
+        - name: grpc_listener
+          address:
+              socket_address:
+                  address: 0.0.0.0
+                  port_value: 10000
+          filter_chains:
+              - filters:
+                    - name: envoy.filters.network.http_connection_manager
+                      typed_config:
+                          "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+                          stat_prefix: grpc_json
+                          codec_type: AUTO
+                          internal_address_config: # Hier hinzufügen
+                              unix_sockets: true
+                              cidr_ranges:
+                                  - address_prefix: "192.168.0.0"
+                                    prefix_len: 16
+                                  - address_prefix: "10.0.0.0"
+                                    prefix_len: 8
+                                  - address_prefix: "127.0.0.0"
+                                    prefix_len: 8
+                          route_config:
+                              name: local_route
+                              virtual_hosts:
+                                  - name: grpc_service
+                                    domains: ["*"]
+                                    routes:
+                                        - match:
+                                              prefix: "/api/computer-vision/image-interpretation"
+                                          route:
+                                              cluster: grpc_service
+                                              timeout: 60s
+                                        - match:
+                                              prefix: "/computer_vision.ImageInterpretationService/ProcessImage"
+                                          route:
+                                              cluster: grpc_service
+                                              timeout: 60s
+                                    typed_per_filter_config:
+                                        envoy.filters.http.cors:
+                                            "@type": type.googleapis.com/envoy.extensions.filters.http.cors.v3.CorsPolicy
+                                            allow_origin_string_match:
+                                                - exact: "http://localhost:7300"
+                                            allow_methods: "GET, POST, OPTIONS"
+                                            allow_headers: "content-type, x-grpc-web"
+                                            expose_headers: "grpc-status, content-type"
+                                            max_age: "86400"
+                          http_filters:
+                              - name: envoy.filters.http.cors
+                                typed_config:
+                                    "@type": type.googleapis.com/envoy.extensions.filters.http.cors.v3.Cors
+                              - name: envoy.filters.http.grpc_json_transcoder
+                                typed_config:
+                                    "@type": type.googleapis.com/envoy.extensions.filters.http.grpc_json_transcoder.v3.GrpcJsonTranscoder
+                                    proto_descriptor: "/etc/envoy/grpc_service_descriptors.pb"
+                                    services:
+                                        - computer_vision.ImageInterpretationService
+                                    print_options:
+                                        add_whitespace: true
+                                        always_print_primitive_fields: true
+                                        always_print_enums_as_ints: false
+                                        preserve_proto_field_names: true
+                              - name: envoy.filters.http.router
+                                typed_config:
+                                    "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+    clusters:
+        - name: grpc_service
+          connect_timeout: 1s
+          type: LOGICAL_DNS
+          lb_policy: ROUND_ROBIN
+          dns_lookup_family: V4_ONLY
+          load_assignment:
+              cluster_name: grpc_service
+              endpoints:
+                  - lb_endpoints:
+                        - endpoint:
+                              address:
+                                  socket_address:
+                                      address: host.docker.internal
+                                      port_value: 5225
+          http2_protocol_options: {}
+admin:
+    access_log_path: "/tmp/admin_access.log"
+    address:
+        socket_address:
+            address: 0.0.0.0
+            port_value: 9901

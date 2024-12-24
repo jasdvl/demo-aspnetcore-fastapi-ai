@@ -1,0 +1,5 @@
+services:
+    aixplorer.proxy:
+        build:
+          context: .
+          dockerfile: AIxplorer.Proxy/Dockerfile
