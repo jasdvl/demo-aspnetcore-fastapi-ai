@@ -34,6 +34,11 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="app\api\image2image_generator.py" />
+    <Compile Include="app\api\image_generator.py" />
+    <Compile Include="app\utilities\image_utils.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="config.py">
       <SubType>Code</SubType>
     </Compile>
@@ -53,6 +58,7 @@
   <ItemGroup>
     <Folder Include="app\" />
     <Folder Include="app\api\" />
+    <Folder Include="app\utilities\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include=".env.example" />
