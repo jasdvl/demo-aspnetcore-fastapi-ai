@@ -6,6 +6,9 @@
 # dotenv files
 .env
 
+# python environment
+imagegen_env/
+
 # User-specific files
 console.cmd
 *.rsuser
