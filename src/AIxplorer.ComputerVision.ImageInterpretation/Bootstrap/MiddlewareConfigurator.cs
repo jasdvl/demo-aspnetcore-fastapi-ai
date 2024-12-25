@@ -1,6 +1,6 @@
-using AIxplorer.Server.Services;
+using AIxplorer.ComputerVision.ImageInterpretation.Services;
 
-namespace AIxplorer.Server.Bootstrap;
+namespace AIxplorer.ComputerVision.ImageInterpretation.Bootstrap;
 
 /// <summary>
 /// Configures the middleware components for the application.
@@ -34,8 +34,8 @@ public class MiddlewareConfigurator
         // app.UseHttpsRedirection();
         app.UseCors("AllowOrigin");
 
-        app.ConfigureRoutes();
+        // app.ConfigureRoutes();
 
-        app.MapGrpcService<VisualDataInterpretationService>();
+        app.MapGrpcService<ImageInterpretationServiceImpl>();
     }
 }

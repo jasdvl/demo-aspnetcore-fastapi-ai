@@ -1,7 +1,7 @@
-using AIxplorer.AI.ComputerVision.VisualDataInterpretation;
-using AIxplorer.Server.Services;
+using AIxplorer.AI.ComputerVision.ImageInterpretation;
+using AIxplorer.ComputerVision.ImageInterpretation.Services;
 
-namespace AIxplorer.Server.Bootstrap;
+namespace AIxplorer.ComputerVision.ImageInterpretation.Bootstrap;
 
 /// <summary>
 /// The CompositionRoot class is responsible for setting up the application’s 
@@ -98,8 +98,8 @@ public class CompositionRoot
         var modelPath = configuration["ModelConfiguration:ModelPath"];
 
         logger.LogInformation("Model path: {ModelPath}", modelPath);
-        services.AddSingleton<ImageAnalyzer>(sp => new ImageAnalyzer(modelPath));
+        services.AddSingleton<ImageInterpreter>(sp => new ImageInterpreter(modelPath));
 
-        services.AddScoped<IVisualDataInterpretationService, VisualDataInterpretationService>();
+        services.AddScoped<IImageInterpretationService, ImageInterpretationServiceImpl>();
     }
 }

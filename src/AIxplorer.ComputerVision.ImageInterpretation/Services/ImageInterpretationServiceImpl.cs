@@ -1,13 +1,13 @@
-using AIxplorer.AI.ComputerVision.VisualDataInterpretation;
+using AIxplorer.AI.ComputerVision.ImageInterpretation;
 using AIxplorer.Grpc.Contracts.ComputerVision;
 using Grpc.Core;
 
-namespace AIxplorer.Server.Services;
+namespace AIxplorer.ComputerVision.ImageInterpretation.Services;
 
 /// <summary>
-/// Interface for the <see cref="VisualDataInterpretationService"/>, defining the contract for processing image interpretation requests.
+/// Interface for the <see cref="ImageInterpretationServiceImpl"/>, defining the contract for processing image interpretation requests.
 /// </summary>
-public interface IVisualDataInterpretationService
+public interface IImageInterpretationService
 {
     /// <summary>
     /// Processes an image and provides its interpretation result.
@@ -21,20 +21,20 @@ public interface IVisualDataInterpretationService
 /// <summary>
 /// Implementation of the gRPC <see cref="ImageInterpretationService"> for processing image data and returning textual descriptions.
 /// </summary>
-public class VisualDataInterpretationService : ImageInterpretationService.ImageInterpretationServiceBase, IVisualDataInterpretationService
+public class ImageInterpretationServiceImpl : ImageInterpretationService.ImageInterpretationServiceBase, IImageInterpretationService
 {
-    private readonly ILogger<VisualDataInterpretationService> _logger;
+    private readonly ILogger<ImageInterpretationServiceImpl> _logger;
 
-    private readonly ImageAnalyzer _imageAnalyzer;
+    private readonly ImageInterpreter _imageAnalyzer;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="VisualDataInterpretationService"/> class.
+    /// Initializes a new instance of the <see cref="ImageInterpretationServiceImpl"/> class.
     /// </summary>
     /// <param name="logger">The logger instance for logging service activity.</param>
     /// <param name="imageAnalyzer">The image analyzer used for interpreting image data.</param>
-    public VisualDataInterpretationService(
-                                ILogger<VisualDataInterpretationService> logger,
-                                ImageAnalyzer imageAnalyzer)
+    public ImageInterpretationServiceImpl(
+                                ILogger<ImageInterpretationServiceImpl> logger,
+                                ImageInterpreter imageAnalyzer)
     {
         _logger = logger;
         _imageAnalyzer = imageAnalyzer;
@@ -55,7 +55,7 @@ public class VisualDataInterpretationService : ImageInterpretationService.ImageI
                 throw new RpcException(new Status(StatusCode.InvalidArgument, "Image data are missing."));
             }
 
-            string interpretation = await _imageAnalyzer.Interpret("What do you recognize?", request.ImageBase64);
+            string interpretation = await _imageAnalyzer.InterpretAsync("What do you recognize?", request.ImageBase64);
 
             var result = new ImageInterpretationResult
             {
