@@ -1,4 +1,4 @@
-using AIxplorer.AI.ComputerVision.ImageInterpretation;
+using AIxplorer.Core.AI.ComputerVision.ImageInterpretation;
 using AIxplorer.Grpc.Contracts.ComputerVision;
 using Grpc.Core;
 

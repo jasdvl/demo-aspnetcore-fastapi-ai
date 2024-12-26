@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AIxplorer.AI\AIxplorer.AI.csproj" />
+    <ProjectReference Include="..\AIxplorer.Core\AIxplorer.Core.csproj" />
     <ProjectReference Include="..\AIxplorer.Grpc.Contracts\AIxplorer.Grpc.Contracts.csproj" />
   </ItemGroup>
 
