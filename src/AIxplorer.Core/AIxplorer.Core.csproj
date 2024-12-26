@@ -7,7 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="MachineLearning\Regression\" />
+    <Folder Include="AI\MachineLearning\Regression\" />
+    <Folder Include="Infrastructure\" />
   </ItemGroup>
 
   <ItemGroup>

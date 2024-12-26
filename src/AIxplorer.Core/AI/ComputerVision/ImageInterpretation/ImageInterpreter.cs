@@ -1,12 +1,12 @@
 using Microsoft.ML.OnnxRuntimeGenAI;
 using System.Text;
 
-namespace AIxplorer.AI.ComputerVision.VisualDataInterpretation;
+namespace AIxplorer.Core.AI.ComputerVision.ImageInterpretation;
 
 /// <summary>
 /// The <c>ImageAnalyzer</c> class provides functionality to interpret images using an ONNX runtime model.
 /// </summary>
-public class ImageAnalyzer : IDisposable
+public class ImageInterpreter : IDisposable
 {
     private readonly string _modelPath;
 
@@ -15,10 +15,10 @@ public class ImageAnalyzer : IDisposable
     private readonly MultiModalProcessor _processor;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ImageAnalyzer"/> class.
+    /// Initializes a new instance of the <see cref="ImageInterpreter"/> class.
     /// </summary>
     /// <param name="modelPath">The file path to the ONNX model used for analysis.</param>
-    public ImageAnalyzer(string modelPath)
+    public ImageInterpreter(string modelPath)
     {
         _modelPath = modelPath;
         _model = new Model(_modelPath);
@@ -43,7 +43,7 @@ public class ImageAnalyzer : IDisposable
     /// </summary>
     /// <param name="base64Image">The Base64-encoded string of the image to be analyzed.</param>
     /// <returns>A <see cref="Task{String}"/> that represents the result of the image analysis.</returns>
-    public async Task<string> Interpret(string question, string base64Image)
+    public async Task<string> InterpretAsync(string question, string base64Image)
     {
         byte[] imageBytes = Convert.FromBase64String(base64Image);
 
