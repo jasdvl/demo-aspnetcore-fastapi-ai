@@ -24,26 +24,37 @@ static_resources:
                           route_config:
                               name: local_route
                               virtual_hosts:
-                                  - name: grpc_service
-                                    domains: ["*"]
+                                  - name: grpc_img_interpretation_service
+                                    domains:
+                                        - "localhost:10000"
                                     routes:
                                         - match:
                                               prefix: "/api/computer-vision/image-interpretation"
                                           route:
-                                              cluster: grpc_service
+                                              cluster: grpc_img_interpretation_service
                                               timeout: 60s
                                         - match:
                                               prefix: "/computer_vision.ImageInterpretationService/ProcessImage"
                                           route:
-                                              cluster: grpc_service
+                                              cluster: grpc_img_interpretation_service
                                               timeout: 60s
+                                        - match:
+                                              prefix: "/api/nlp/question-answering"
+                                          route:
+                                              cluster: grpc_qna_service
+                                              timeout: 60s
+                                        - match:
+                                               prefix: "/nlp.QuestionAnsweringService/GetAnswer"
+                                          route:
+                                               cluster: grpc_qna_service
+                                               timeout: 60s
                                     typed_per_filter_config:
                                         envoy.filters.http.cors:
                                             "@type": type.googleapis.com/envoy.extensions.filters.http.cors.v3.CorsPolicy
                                             allow_origin_string_match:
                                                 - exact: "http://localhost:4200"
                                             allow_methods: "GET, POST, OPTIONS"
-                                            allow_headers: "content-type, x-grpc-web"
+                                            allow_headers: "content-type, x-grpc-web, origin"
                                             expose_headers: "grpc-status, content-type"
                                             max_age: "86400"
                           http_filters:
@@ -56,6 +67,7 @@ static_resources:
                                     proto_descriptor: "/etc/envoy/grpc_service_descriptors.pb"
                                     services:
                                         - computer_vision.ImageInterpretationService
+                                        - nlp.QuestionAnsweringService
                                     print_options:
                                         add_whitespace: true
                                         always_print_primitive_fields: true
@@ -65,13 +77,13 @@ static_resources:
                                 typed_config:
                                     "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
     clusters:
-        - name: grpc_service
+        - name: grpc_img_interpretation_service
           connect_timeout: 1s
           type: LOGICAL_DNS
           lb_policy: ROUND_ROBIN
           dns_lookup_family: V4_ONLY
           load_assignment:
-              cluster_name: grpc_service
+              cluster_name: grpc_img_interpretation_service
               endpoints:
                   - lb_endpoints:
                         - endpoint:
@@ -79,6 +91,21 @@ static_resources:
                                   socket_address:
                                       address: host.docker.internal
                                       port_value: 5225
+          http2_protocol_options: {}
+        - name: grpc_qna_service        # question-answering
+          connect_timeout: 1s
+          type: LOGICAL_DNS
+          lb_policy: ROUND_ROBIN
+          dns_lookup_family: V4_ONLY
+          load_assignment:
+              cluster_name: grpc_qna_service
+              endpoints:
+                  - lb_endpoints:
+                        - endpoint:
+                              address:
+                                  socket_address:
+                                      address: host.docker.internal
+                                      port_value: 5235
           http2_protocol_options: {}
 admin:
     access_log_path: "/tmp/admin_access.log"
