@@ -1,18 +1,19 @@
+using Microsoft.Extensions.Logging;
 using Microsoft.ML.OnnxRuntimeGenAI;
 
-namespace AIxplorer.AI.NLP;
+namespace AIxplorer.Core.AI.NLP;
 
 /// <summary>
 /// The <c>QuestionAnsweringAssistant</c> class is responsible for generating responses to user questions
-/// using an ONNX model and multi-modal processing.
+/// using an ONNX model.
 /// </summary>
 public class QuestionAnsweringAssistant : IDisposable
 {
+    private readonly ILogger _logger;
+
     private readonly string _modelPath;
 
     private readonly Model _model;
-
-    private readonly MultiModalProcessor _processor;
 
     private readonly Tokenizer _tokenizer;
 
@@ -20,11 +21,11 @@ public class QuestionAnsweringAssistant : IDisposable
     /// Initializes a new instance of the <see cref="QuestionAnsweringAssistant"/> class.
     /// </summary>
     /// <param name="modelPath">The file path to the ONNX model used for generating answers.</param>
-    public QuestionAnsweringAssistant(string modelPath)
+    public QuestionAnsweringAssistant(ILogger<QuestionAnsweringAssistant> logger, string modelPath)
     {
+        _logger = logger;
         _modelPath = modelPath;
         _model = new Model(_modelPath);
-        _processor = new MultiModalProcessor(_model);
         _tokenizer = new Tokenizer(_model);
     }
 
@@ -38,7 +39,6 @@ public class QuestionAnsweringAssistant : IDisposable
     public void Dispose()
     {
         _tokenizer?.Dispose();
-        _processor?.Dispose();
         _model?.Dispose();
     }
 
@@ -58,7 +58,6 @@ public class QuestionAnsweringAssistant : IDisposable
         }
         catch (Exception ex)
         {
-            // TODO Log message
             Console.WriteLine($"Error occurred while generating answer: {ex.Message}");
             throw;
         }

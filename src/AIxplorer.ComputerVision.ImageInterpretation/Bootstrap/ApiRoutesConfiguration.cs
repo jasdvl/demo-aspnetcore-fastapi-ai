@@ -1,7 +1,7 @@
-using AIxplorer.Server.Services;
+using AIxplorer.ComputerVision.ImageInterpretation.Services;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace AIxplorer.Server.Bootstrap;
+namespace AIxplorer.ComputerVision.ImageInterpretation.Bootstrap;
 
 /// <summary>
 /// Provides configuration for API routes in the application.
@@ -21,7 +21,7 @@ public static class ApiRoutesConfiguration
     {
         // deprecated: REST Api
         app.MapPost("/api/computer-vision/image-interpretation",
-            async (HttpContext httpContext, IFormFile file, IVisualDataInterpretationService imageRecognitionService) =>
+            async (HttpContext httpContext, IFormFile file, IImageInterpretationService imageRecognitionService) =>
             {
                 throw new NotImplementedException();
             })

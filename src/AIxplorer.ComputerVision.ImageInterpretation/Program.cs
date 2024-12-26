@@ -1,5 +1,5 @@
 
-using AIxplorer.Server.Bootstrap;
+using AIxplorer.ComputerVision.ImageInterpretation.Bootstrap;
 
 WebApplicationOptions options = new WebApplicationOptions { Args = args };
 CompositionRoot compositionRoot = new CompositionRoot();
