@@ -1,0 +1,6 @@
+@AIxplorer.Nlp.QnA_HostAddress = http://localhost:5230
+
+GET {{AIxplorer.Nlp.QnA_HostAddress}}/api/nlp/question-answering/
+Accept: application/json
+
+###
