@@ -1,5 +1,5 @@
-using AIxplorer.AI.ComputerVision.ImageInterpretation;
 using AIxplorer.ComputerVision.ImageInterpretation.Services;
+using AIxplorer.Core.AI.ComputerVision.ImageInterpretation;
 
 namespace AIxplorer.ComputerVision.ImageInterpretation.Bootstrap;
 
@@ -96,9 +96,18 @@ public class CompositionRoot
     {
         // path for AI model
         var modelPath = configuration["ModelConfiguration:ModelPath"];
+        if (string.IsNullOrEmpty(modelPath))
+        {
+            throw new ArgumentException("The model path is missing or empty. Please check the configuration setting 'ModelConfiguration:ModelPath'.", nameof(modelPath));
+        }
 
         logger.LogInformation("Model path: {ModelPath}", modelPath);
-        services.AddSingleton<ImageInterpreter>(sp => new ImageInterpreter(modelPath));
+
+        services.AddSingleton<ImageInterpreter>(sp =>
+        {
+            var loggerForImageInterpreter = sp.GetRequiredService<ILogger<ImageInterpreter>>();
+            return new ImageInterpreter(loggerForImageInterpreter, modelPath);
+        });
 
         services.AddScoped<IImageInterpretationService, ImageInterpretationServiceImpl>();
     }

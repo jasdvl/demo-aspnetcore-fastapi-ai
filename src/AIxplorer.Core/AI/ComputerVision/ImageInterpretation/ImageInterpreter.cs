@@ -1,3 +1,5 @@
+using AIxplorer.Core.Infrastructure;
+using Microsoft.Extensions.Logging;
 using Microsoft.ML.OnnxRuntimeGenAI;
 using System.Text;
 
@@ -6,8 +8,10 @@ namespace AIxplorer.Core.AI.ComputerVision.ImageInterpretation;
 /// <summary>
 /// The <c>ImageAnalyzer</c> class provides functionality to interpret images using an ONNX runtime model.
 /// </summary>
-public class ImageInterpreter : IDisposable
+public class ImageInterpreter : ManagedDisposableBase
 {
+    private readonly ILogger _logger;
+
     private readonly string _modelPath;
 
     private readonly Model _model;
@@ -18,21 +22,23 @@ public class ImageInterpreter : IDisposable
     /// Initializes a new instance of the <see cref="ImageInterpreter"/> class.
     /// </summary>
     /// <param name="modelPath">The file path to the ONNX model used for analysis.</param>
-    public ImageInterpreter(string modelPath)
+    public ImageInterpreter(ILogger<ImageInterpreter> logger, string modelPath)
     {
+        _logger = logger;
         _modelPath = modelPath;
         _model = new Model(_modelPath);
         _processor = new MultiModalProcessor(_model);
     }
 
     /// <summary>
-    /// Releases all resources used by the <see cref="QuestionAnsweringAssistant"/> class.
+    /// Releases the managed resources used by the object. This method is called by the Dispose method.
+    /// Derived classes should override this method to release their managed resources.
     /// </summary>
     /// <remarks>
     /// This method is called to release unmanaged resources and perform any necessary cleanup 
     /// when the <see cref="QuestionAnsweringAssistant"/> is no longer needed.
     /// </remarks>
-    public void Dispose()
+    protected override void DisposeManagedResources()
     {
         _processor?.Dispose();
         _model?.Dispose();
@@ -65,7 +71,7 @@ public class ImageInterpreter : IDisposable
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Failed to delete temp file: {ex.Message}");
+            _logger.LogError(ex, $"Failed to delete temp file.");
         }
 
         return result;

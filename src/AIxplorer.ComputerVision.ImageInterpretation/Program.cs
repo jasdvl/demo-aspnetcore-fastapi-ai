@@ -6,12 +6,8 @@ CompositionRoot compositionRoot = new CompositionRoot();
 
 var builder = compositionRoot.CreateBuilder(options);
 
-
-
 var app = builder.Build();
 
 MiddlewareConfigurator.Configure(app, app.Environment);
-
-
 
 app.Run();
