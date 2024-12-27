@@ -1,3 +1,4 @@
+using AIxplorer.Core.Infrastructure;
 using Microsoft.Extensions.Logging;
 using Microsoft.ML.OnnxRuntimeGenAI;
 
@@ -7,7 +8,7 @@ namespace AIxplorer.Core.AI.NLP;
 /// The <c>QuestionAnsweringAssistant</c> class is responsible for generating responses to user questions
 /// using an ONNX model.
 /// </summary>
-public class QuestionAnsweringAssistant : IDisposable
+public class QuestionAnsweringAssistant : ManagedDisposableBase
 {
     private readonly ILogger _logger;
 
@@ -30,13 +31,14 @@ public class QuestionAnsweringAssistant : IDisposable
     }
 
     /// <summary>
-    /// Releases all resources used by the <see cref="QuestionAnsweringAssistant"/> class.
+    /// Releases the managed resources used by the object. This method is called by the Dispose method.
+    /// Derived classes should override this method to release their managed resources.
     /// </summary>
     /// <remarks>
     /// This method is called to release unmanaged resources and perform any necessary cleanup 
     /// when the <see cref="QuestionAnsweringAssistant"/> is no longer needed.
     /// </remarks>
-    public void Dispose()
+    protected override void DisposeManagedResources()
     {
         _tokenizer?.Dispose();
         _model?.Dispose();
@@ -58,7 +60,7 @@ public class QuestionAnsweringAssistant : IDisposable
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error occurred while generating answer: {ex.Message}");
+            _logger.LogError(ex, $"Error occurred while generating answer.");
             throw;
         }
     }
