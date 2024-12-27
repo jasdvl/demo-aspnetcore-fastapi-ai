@@ -8,12 +8,14 @@ import "google/api/annotations.proto";
 
 // Response containing the answer to a question
 message AnswerResponse {
-    string answer = 1; // The answer derived from the question
+    // The answer derived from the question
+    string answer = 1;
 }
 
 // Request containing the question 
 message QuestionRequest {
-    string question = 1; // The question to be answered
+    // The question to be answered
+    string question = 1;
 }
 
 // Service for processing natural language questions and providing answers
