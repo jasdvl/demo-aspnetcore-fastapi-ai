@@ -44,7 +44,7 @@ def read_root():
     return {"message": "Hello, ImageGen FastAPI!"}
 
 
-@app.get("/generative-ai/image-generation")
+@app.get("/api/generative-ai/image-generation")
 def generate_image():
     image_generator: ImageGenerator = resources.get("image_generator")
     if not image_generator:
