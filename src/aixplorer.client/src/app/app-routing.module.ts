@@ -18,6 +18,10 @@ const routes: Routes = [
         path: 'generative-ai',
         loadChildren: () => import('./modules/generative-ai/generative-ai.module').then((m) => m.GenerativeAiModule)
     },
+    {
+        path: 'nlp',
+        loadChildren: () => import('./modules/natural-language-processing/nlp.module').then((m) => m.NlpModule)
+    },
     { path: '**', redirectTo: '' },
 ];
 

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ImageInterpretationComponent } from './components/image-interpretation/image-interpretation';
+import { ImageInterpretationComponent } from './components/image-interpretation/image-interpretation.component';
 
 const routes: Routes = [
     //{
