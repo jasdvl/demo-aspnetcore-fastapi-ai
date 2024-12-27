@@ -1,14 +1,14 @@
-# Unter https://aka.ms/customizecontainer erfahren Sie, wie Sie Ihren Debugcontainer anpassen und wie Visual Studio dieses Dockerfile verwendet, um Ihre Images fÃ¼r ein schnelleres Debuggen zu erstellen.
+# Learn how to customize your debug container and how Visual Studio uses this Dockerfile 
+# to create images for faster debugging at https://aka.ms/customizecontainer.
 
-# Diese Stufe wird verwendet, wenn sie von VS im Schnellmodus ausgefÃ¼hrt wird (Standardeinstellung fÃ¼r Debugkonfiguration).
+# This stage is used when executed by Visual Studio in Fast Mode (default setting for Debug configuration).
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
 USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
-
-# Diese Stufe wird zum Erstellen des Dienstprojekts verwendet.
+# This stage is used to build the service project.
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
@@ -18,12 +18,13 @@ COPY . .
 WORKDIR "/src/AIxplorer.Nlp.QnA"
 RUN dotnet build "./AIxplorer.Nlp.QnA.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-# Diese Stufe wird verwendet, um das Dienstprojekt zu verÃ¶ffentlichen, das in die letzte Phase kopiert werden soll.
+# This stage is used to publish the service project, which will be copied to the final stage.
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./AIxplorer.Nlp.QnA.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
-# Diese Stufe wird in der Produktion oder bei AusfÃ¼hrung von VS im regulÃ¤ren Modus verwendet (Standard, wenn die Debugkonfiguration nicht verwendet wird).
+# This stage is used in production or when Visual Studio runs in regular mode 
+# (default when the Debug configuration is not used).
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .

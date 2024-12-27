@@ -6,7 +6,7 @@ namespace AIxplorer.Nlp.QnA.Services;
 
 public interface IQuestionAnsweringService
 {
-    Task<AnswerResponse> GenerateAnswerAsync(QuestionRequest request, ServerCallContext context);
+    Task<AnswerResponse> GetAnswer(QuestionRequest request, ServerCallContext context);
 }
 
 public class QuestionAnsweringServiceImpl : QuestionAnsweringService.QuestionAnsweringServiceBase, IQuestionAnsweringService
@@ -23,8 +23,8 @@ public class QuestionAnsweringServiceImpl : QuestionAnsweringService.QuestionAns
         _answeringAssistant = answeringAssistant;
     }
 
-    public async Task<AnswerResponse> GenerateAnswerAsync(QuestionRequest request, ServerCallContext context)
+    public override async Task<AnswerResponse> GetAnswer(QuestionRequest request, ServerCallContext context)
     {
-        throw new NotImplementedException();
+        return null;
     }
 }
