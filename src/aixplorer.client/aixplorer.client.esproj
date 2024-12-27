@@ -13,6 +13,5 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\app\layout\" />
-    <Folder Include="src\app\modules\natural-language-processing\" />
   </ItemGroup>
 </Project>
