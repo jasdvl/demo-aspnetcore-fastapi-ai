@@ -24,7 +24,7 @@ static_resources:
                           route_config:
                               name: local_route
                               virtual_hosts:
-                                  - name: grpc_img_interpretation_service
+                                  - name: backend_services
                                     domains:
                                         - "localhost:10000"
                                     routes:
@@ -48,6 +48,11 @@ static_resources:
                                           route:
                                                cluster: grpc_qna_service
                                                timeout: 60s
+                                        - match:
+                                              prefix: "/api/generative-ai/image-generation"
+                                          route:
+                                              cluster: image_generation_service
+                                              timeout: 600s
                                     typed_per_filter_config:
                                         envoy.filters.http.cors:
                                             "@type": type.googleapis.com/envoy.extensions.filters.http.cors.v3.CorsPolicy
@@ -107,6 +112,20 @@ static_resources:
                                       address: host.docker.internal
                                       port_value: 5235
           http2_protocol_options: {}
+        - name: image_generation_service        # image-generation
+          connect_timeout: 1s
+          type: LOGICAL_DNS
+          lb_policy: ROUND_ROBIN
+          dns_lookup_family: V4_ONLY
+          load_assignment:
+              cluster_name: image_generation_service
+              endpoints:
+                  - lb_endpoints:
+                        - endpoint:
+                              address:
+                                  socket_address:
+                                      address: host.docker.internal
+                                      port_value: 7600
 admin:
     access_log_path: "/tmp/admin_access.log"
     address:
