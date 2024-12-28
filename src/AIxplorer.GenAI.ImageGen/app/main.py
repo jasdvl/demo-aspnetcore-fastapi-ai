@@ -15,7 +15,7 @@ async def lifespan(app: FastAPI):
     """
     Lifespan function to initialize and clean up resources.
     """
-    resources["image_generation_service"] = ImageGenerationService(MODEL_PATH or "path/to/model")
+    resources["image_generation_service"] = ImageGenerationService(MODEL_PATH)
     
     yield
     print("Cleaning up resources...")
