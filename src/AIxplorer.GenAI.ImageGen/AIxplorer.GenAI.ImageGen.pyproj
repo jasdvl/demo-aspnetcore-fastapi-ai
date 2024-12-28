@@ -34,8 +34,17 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="app\api\image2image_generator.py" />
-    <Compile Include="app\api\image_generator.py" />
+    <Compile Include="app\api\endpoints\image_generation.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="app\core\resources.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="app\services\image2image_generation_service.py" />
+    <Compile Include="app\services\image_generation_service.py" />
+    <Compile Include="app\models\image_dto.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="app\utilities\image_utils.py">
       <SubType>Code</SubType>
     </Compile>
@@ -43,6 +52,19 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="app\main.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="app\" />
+    <Folder Include="app\api\" />
+    <Folder Include="app\models\" />
+    <Folder Include="app\api\endpoints\" />
+    <Folder Include="app\core\" />
+    <Folder Include="app\services\" />
+    <Folder Include="app\utilities\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include=".env.example" />
+    <Content Include="requirements.txt" />
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="imagegen_env\">
@@ -54,15 +76,6 @@
       <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
       <Architecture>X64</Architecture>
     </Interpreter>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="app\" />
-    <Folder Include="app\api\" />
-    <Folder Include="app\utilities\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include=".env.example" />
-    <Content Include="requirements.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.Web.targets" />
   <!-- Specify pre- and post-build commands in the BeforeBuild and 

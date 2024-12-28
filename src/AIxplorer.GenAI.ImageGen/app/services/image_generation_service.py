@@ -6,7 +6,7 @@ from PIL import Image
 from io import BytesIO
 import base64
 
-class ImageGenerator:
+class ImageGenerationService:
     def __init__(self, model_path: str):
         """
         Initializes the ImageGenerator with a specific Stable Diffusion model.
@@ -60,7 +60,7 @@ if __name__ == "__main__":
     width = 512
     height = 256
 
-    image_generator = ImageGenerator(model_path)
+    image_generator = ImageGenerationService(model_path)
 
     print("Generating image...")
     base64_image = image_generator.generate_image(prompt, width=width, height=height)

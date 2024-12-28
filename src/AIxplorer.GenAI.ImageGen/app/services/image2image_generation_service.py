@@ -9,7 +9,7 @@ from io import BytesIO
 import base64
 import sys
 
-class Image2ImageGenerator:
+class Image2ImageGenerationService:
     def __init__(self, model_path: str):
             """
             Initializes the Image2ImageGenerator with a specific Stable Diffusion model.
@@ -83,7 +83,7 @@ if __name__ == "__main__":
     # Optional path to save the image
     output_image_path = "C:\\temp\\image.png"
     
-    image_generator = Image2ImageGenerator(model_path)
+    image_generator = Image2ImageGenerationService(model_path)
 
     print("Generating image...")
     base64_image = image_generator.generate_image(prompt, init_image=init_image, width=width, height=height)
