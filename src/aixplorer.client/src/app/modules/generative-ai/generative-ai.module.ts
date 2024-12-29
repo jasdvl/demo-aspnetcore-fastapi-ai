@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { GenerativeAiRoutingModule } from './generative-ai-routing.module';
 import { FormsModule } from '@angular/forms'; 
-import { ImageGenerationComponent } from './image-generation/image-generation.component';
+import { ImageGenerationComponent } from './components/image-generation/image-generation.component';
 
 @NgModule({
     declarations: [ImageGenerationComponent],
