@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ImageGenerationComponent } from './image-generation/image-generation.component';
+import { ImageGenerationComponent } from './components/image-generation/image-generation.component';
 
 const routes: Routes = [
     {

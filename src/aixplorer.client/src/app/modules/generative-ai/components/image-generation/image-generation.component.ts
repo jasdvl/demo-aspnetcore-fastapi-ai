@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from 'app/core/services/rest-api.service';
+import { GeneratedImageDto } from '../../interfaces/generated-image.dto';
 
 @Component({
     selector: 'app-image-generation',
@@ -26,7 +27,9 @@ export class ImageGenerationComponent implements OnInit
 
     onStartGeneration()
     {
-        this.apiService.get('generative-ai/image-generation')
+        const requestBody = { prompt: this.textInputValue };
+
+        this.apiService.post<GeneratedImageDto>('generative-ai/image-generation', requestBody)
             .subscribe({
                 next: (result) =>
                 {
