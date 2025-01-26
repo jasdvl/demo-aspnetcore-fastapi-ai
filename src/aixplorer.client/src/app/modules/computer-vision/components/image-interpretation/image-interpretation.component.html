@@ -1,24 +1,46 @@
-<div class="p-6 max-w-md mx-auto mt-12 bg-white rounded-lg shadow-md">
-    <h2 class="text-2xl font-bold text-gray-800 mb-4">Image Recognition</h2>
+<div class="p-3">
+    <div class="p-6 max-w-md mx-auto my-8 bg-white rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Image Interpretation</h2>
 
-    <div class="flex flex-col space-y-4">
-        <!-- File Input -->
-        <input type="file"
-               #fileInput
-               (change)="onFileSelected($event)"
-               class="block w-full text-sm text-gray-700
+        <div class="flex flex-col space-y-4">
+            <!-- File Input -->
+            <input type="file"
+                   #fileInput
+                   (change)="onFileSelected($event)"
+                   class="block w-full text-sm text-gray-700
                       border border-gray-300 rounded-lg cursor-pointer
                       focus:outline-none focus:ring-2 focus:ring-header focus:border-transparent">
 
-        <!-- Start Recognition Button -->
-        <button [disabled]="!selectedFile"
-                (click)="startRecognition()"
-                class="w-full px-4 py-2 text-white font-medium
+            <!-- Image Preview -->
+            <div *ngIf="imageEnc" class="w-full border border-gray-300 rounded-lg overflow-hidden shadow-md">
+                <img [src]="imageEnc" alt="Image preview"
+                     class="w-full h-auto object-contain">
+            </div>
+            <!-- Prompt Description -->
+            <p *ngIf="imageEnc" class="text-gray-700 mb-2">
+                Enter a question to ask the AI about the selected image.
+            </p>
+            <!-- Prompt -->
+            <textarea *ngIf="imageEnc"
+                      [(ngModel)]="user_question"
+                      class="w-full h-32 px-4 py-2 mt-4 text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-header focus:border-transparent">
+            </textarea>
+
+            <!-- Start Recognition Button -->
+            <button [disabled]="!selectedFile"
+                    (click)="startRecognition()"
+                    class="w-full px-4 py-2 text-white font-medium
                        bg-button
                        rounded-lg shadow-sm hover:bg-button-hover
                        focus:outline-none focus:ring-2 focus:ring-header focus:ring-offset-2
                        disabled:bg-button-disabled disabled:cursor-not-allowed">
-            Start Recognition
-        </button>
+                Start Recognition
+            </button>
+            <div *ngIf="interpretation"
+                 contenteditable="false"
+                 class="w-full px-4 py-2 mt-4 text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-header focus:border-transparent">
+                {{ interpretation }}
+            </div>
+        </div>
     </div>
 </div>
