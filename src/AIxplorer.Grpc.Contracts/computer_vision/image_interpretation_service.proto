@@ -19,6 +19,8 @@ message ImageInterpretationRequest {
 
     // Original file name of the image
     string file_name = 2;
+
+    string user_question = 3;
 }
 
 // Service for processing and interpreting images

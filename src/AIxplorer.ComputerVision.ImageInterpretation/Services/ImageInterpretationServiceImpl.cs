@@ -55,7 +55,7 @@ public class ImageInterpretationServiceImpl : ImageInterpretationService.ImageIn
                 throw new RpcException(new Status(StatusCode.InvalidArgument, "Image data are missing."));
             }
 
-            string interpretation = await _imageAnalyzer.InterpretAsync("What do you recognize?", request.ImageBase64);
+            string interpretation = await _imageAnalyzer.InterpretAsync(request.UserQuestion, request.ImageBase64);
 
             var result = new ImageInterpretationResult
             {

@@ -13,6 +13,12 @@ export class ImageInterpretationComponent implements OnInit
 {
     selectedFile: File | null = null;
 
+    imageEnc: string | null = null;
+
+    user_question: string | null = null;
+
+    interpretation: string | null = null;
+
     constructor(private router: Router, private apiService: ApiService)
     {
     }
@@ -24,33 +30,6 @@ export class ImageInterpretationComponent implements OnInit
 
     ngOnDestroy()
     {
-    }
-
-    postFormData()
-    {
-        if (!this.selectedFile)
-        {
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append('file', this.selectedFile, this.selectedFile.name);
-
-        this.apiService.post<ImageInterpretationResultDto>("computer-vision/image-interpretation", formData, new HttpHeaders())
-            .subscribe({
-                next: (result) =>
-                {
-
-                },
-                error: (error) =>
-                {
-
-                },
-                complete: () =>
-                {
-
-                }
-            });
     }
 
     startRecognition()
@@ -71,7 +50,8 @@ export class ImageInterpretationComponent implements OnInit
 
             const payload = {
                 image_base64: base64Image,
-                filename: this.selectedFile!.name
+                filename: this.selectedFile!.name,
+                user_question: this.user_question
             };
 
             this.apiService.post<ImageInterpretationResultDto>(
@@ -80,15 +60,15 @@ export class ImageInterpretationComponent implements OnInit
             ).subscribe({
                 next: (result) =>
                 {
-                    // Verarbeiten Sie das Ergebnis hier
+                    this.interpretation = result.description;
                 },
                 error: (error) =>
                 {
-                    // Fehlerbehandlung hier
+                    // Log to console, use a logger service or forward the error to monitoring tools like Sentry
                 },
                 complete: () =>
                 {
-                    // Abschlusslogik hier
+                    
                 }
             });
         };
@@ -100,6 +80,16 @@ export class ImageInterpretationComponent implements OnInit
         if (input.files && input.files.length > 0)
         {
             this.selectedFile = input.files[0];
+
+            // Create image preview
+            const reader = new FileReader();
+            reader.onload = () =>
+            {
+                this.imageEnc = reader.result as string;
+            };
+            reader.readAsDataURL(this.selectedFile);
+
+            this.user_question = "";
         }
     }
 }
