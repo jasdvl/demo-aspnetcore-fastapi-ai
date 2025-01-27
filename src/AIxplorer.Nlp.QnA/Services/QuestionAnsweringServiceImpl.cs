@@ -25,6 +25,25 @@ public class QuestionAnsweringServiceImpl : QuestionAnsweringService.QuestionAns
 
     public override async Task<AnswerResponse> GetAnswer(QuestionRequest request, ServerCallContext context)
     {
-        return null;
+        try
+        {
+            if (string.IsNullOrEmpty(request.Question))
+            {
+                throw new RpcException(new Status(StatusCode.InvalidArgument, "Question is missing."));
+            }
+
+            string answer = await _answeringAssistant.GenerateAnswerAsync(request.Question);
+
+            var result = new AnswerResponse
+            {
+                Answer = answer
+            };
+
+            return result;
+        }
+        catch (Exception ex)
+        {
+            throw new RpcException(new Status(StatusCode.Internal, "Image processing failed.", ex));
+        }
     }
 }
