@@ -1,24 +1,31 @@
-<div class="p-6 max-w-md mx-auto mt-12 bg-white rounded-lg shadow-md">
-    <h2 class="text-2xl font-bold text-gray-800 mb-4">Image Recognition</h2>
-
-    <div class="flex flex-col space-y-4">
-        <!-- Question -->
-        <textarea [(ngModel)]="userInput"
-                  rows="5"
-                  class="block w-full text-sm text-gray-700
-                     border border-gray-300 rounded-lg cursor-pointer
-                     focus:outline-none focus:ring-2 focus:ring-header focus:border-transparent"
-                  placeholder="Type your question here...">
-        </textarea>
-
-        <!-- Question Request Button -->
-        <button (click)="startRequest()"
-                class="w-full px-4 py-2 text-white font-medium
+<div class="p-3">
+    <div class="p-4 max-w-lg mx-auto my-8 bg-white rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">AI Chat</h2>
+        <!-- Chat History -->
+        <div *ngFor="let message of chatHistory" class="mb-4">
+            <div class="p-2 bg-blue-100 rounded-lg text-gray-800 mb-2">
+                <strong>User:</strong> {{ message.question }}
+            </div>
+            <div *ngIf="message.answer" class="p-2 bg-green-100 rounded-lg text-gray-800">
+                <strong>AI:</strong>
+                <div [innerHTML]="formatAnswer(message.answer)" class="max-w-full overflow-x-auto whitespace-pre-wrap word-break"></div>
+            </div>
+        </div>
+        <div class="flex flex-col space-y-4">
+            <textarea [(ngModel)]="userInput"
+                          rows="5"
+                          class="block w-full text-sm text-gray-700
+                 border border-gray-300 rounded-lg
+                 focus:outline-none focus:ring-2 focus:ring-header focus:border-transparent"
+                          placeholder="Type your question here...">
+            </textarea>
+            <button (click)="submitMessage()"
+                    class="w-full px-4 py-2 text-white font-medium
                        bg-button
-                       rounded-lg shadow-sm hover:bg-button-hover
-                       focus:outline-none focus:ring-2 focus:ring-header focus:ring-offset-2
+                       rounded-lg shadow-sm hover:bg-button-hover focus:outline-none focus:ring-2 focus:ring-header focus:ring-offset-2
                        disabled:bg-button-disabled disabled:cursor-not-allowed">
-            Request
-        </button>
+                Submit
+            </button>
+        </div>
     </div>
 </div>
