@@ -52,6 +52,7 @@ export class QuestionAnsweringComponent implements OnInit
             },
             error: (error) =>
             {
+                // Log to console, use a logger service or forward the error to monitoring tools like Sentry
                 console.error('Error:', error);
                 const lastIndex = this.chatHistory.length - 1;
                 this.chatHistory[lastIndex].answer = 'An error occurred. Please try again.';

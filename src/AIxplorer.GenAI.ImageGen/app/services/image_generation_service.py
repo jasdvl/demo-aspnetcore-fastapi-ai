@@ -1,10 +1,10 @@
 from app.utilities.image_utils import ImageUtils
 from diffusers import StableDiffusion3Pipeline
 from numpy import double
-import torch
 from PIL import Image
 from io import BytesIO
 import base64
+import torch
 
 class ImageGenerationService:
     def __init__(self, model_path: str):
@@ -56,7 +56,7 @@ if __name__ == "__main__":
     prompt = "A picturesque mountain landscape at sunset"
 
     # Optional path to save the image
-    output_image_path = "C:\\temp\\image.png"
+    output_image_path = "path\\to\\generated\\image.png"
     width = 512
     height = 256
 

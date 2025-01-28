@@ -16,5 +16,7 @@ def generate_image(request: ImageGenerationRequest):
     
     # Use the provided prompt to generate an image
     base64_image = image_generation_service.generate_image(request.prompt)
+
+    base64_with_prefix = f"data:image/png;base64,{base64_image}"
     
-    return {"base64_image": base64_image}
+    return {"base64_image": base64_with_prefix}
