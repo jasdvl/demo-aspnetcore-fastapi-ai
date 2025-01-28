@@ -12,6 +12,8 @@ export class ImageGenerationComponent implements OnInit
 {
     textInputValue: string = '';
 
+    imageEnc: string | null = null;
+
     constructor(private router: Router, private apiService: ApiService)
     {
     }
@@ -33,15 +35,12 @@ export class ImageGenerationComponent implements OnInit
             .subscribe({
                 next: (result) =>
                 {
-
+                    this.imageEnc = result.base64_image;
                 },
                 error: (error) =>
                 {
-
-                },
-                complete: () =>
-                {
-
+                    // Log to console, use a logger service or forward the error to monitoring tools like Sentry
+                    console.error('Error during image generation:', error);
                 }
             });
     }
