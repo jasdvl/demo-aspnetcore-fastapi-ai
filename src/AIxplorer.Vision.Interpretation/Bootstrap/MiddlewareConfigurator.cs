@@ -1,6 +1,6 @@
-using AIxplorer.ComputerVision.ImageInterpretation.Services;
+using AIxplorer.Vision.Interpretation.Services;
 
-namespace AIxplorer.ComputerVision.ImageInterpretation.Bootstrap;
+namespace AIxplorer.Vision.Interpretation.Bootstrap;
 
 /// <summary>
 /// Configures the middleware components for the application.

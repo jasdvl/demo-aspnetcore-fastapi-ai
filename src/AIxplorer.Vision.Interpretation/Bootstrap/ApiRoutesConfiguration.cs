@@ -1,7 +1,7 @@
-using AIxplorer.ComputerVision.ImageInterpretation.Services;
+using AIxplorer.Vision.Interpretation.Services;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace AIxplorer.ComputerVision.ImageInterpretation.Bootstrap;
+namespace AIxplorer.Vision.Interpretation.Bootstrap;
 
 /// <summary>
 /// Provides configuration for API routes in the application.

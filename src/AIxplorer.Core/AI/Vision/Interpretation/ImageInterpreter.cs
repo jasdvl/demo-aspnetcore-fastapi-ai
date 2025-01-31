@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.ML.OnnxRuntimeGenAI;
 using System.Text;
 
-namespace AIxplorer.Core.AI.ComputerVision.ImageInterpretation;
+namespace AIxplorer.Core.AI.Vision.Interpretation;
 
 /// <summary>
 /// The <c>ImageAnalyzer</c> class provides functionality to interpret images using an ONNX runtime model.

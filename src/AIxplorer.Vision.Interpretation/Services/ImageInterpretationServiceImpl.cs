@@ -1,8 +1,8 @@
-using AIxplorer.Core.AI.ComputerVision.ImageInterpretation;
+using AIxplorer.Core.AI.Vision.Interpretation;
 using AIxplorer.Grpc.Contracts.ComputerVision;
 using Grpc.Core;
 
-namespace AIxplorer.ComputerVision.ImageInterpretation.Services;
+namespace AIxplorer.Vision.Interpretation.Services;
 
 /// <summary>
 /// Interface for the <see cref="ImageInterpretationServiceImpl"/>, defining the contract for processing image interpretation requests.

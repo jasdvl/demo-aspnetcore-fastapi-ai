@@ -1,7 +1,7 @@
-using AIxplorer.ComputerVision.ImageInterpretation.Services;
-using AIxplorer.Core.AI.ComputerVision.ImageInterpretation;
+using AIxplorer.Core.AI.Vision.Interpretation;
+using AIxplorer.Vision.Interpretation.Services;
 
-namespace AIxplorer.ComputerVision.ImageInterpretation.Bootstrap;
+namespace AIxplorer.Vision.Interpretation.Bootstrap;
 
 /// <summary>
 /// The CompositionRoot class is responsible for setting up the application’s 
