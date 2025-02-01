@@ -1,26 +1,22 @@
 <div class="p-3">
-    <div class="p-6 max-w-md mx-auto my-8 bg-white rounded-lg shadow-md">
+    <div class="p-6 max-w-2xl mx-auto my-8 bg-white rounded-lg shadow-md">
         <h2 class="text-2xl font-bold text-gray-800 mb-4">Image Generation</h2>
 
         <div class="flex flex-col space-y-4">
-            <!-- Label -->
-            <label for="textInput" class="text-sm text-gray-700 font-medium">
-                Generate Image
-            </label>
 
             <!-- Text Input -->
             <textarea id="textInput"
                       [(ngModel)]="textInputValue"
-                      placeholder="Enter text here"
+                      placeholder="Describe the image you want to generate"
                       rows="4"
-                      class="block w-full text-sm text-gray-700
+                      class="block w-full text-base text-gray-700
                  border border-gray-300 rounded-lg
                  focus:outline-none focus:ring-2 focus:ring-header focus:border-transparent">
-        </textarea>
+            </textarea>
 
 
             <!-- Start Generation Button -->
-            <button [disabled]="!textInputValue"
+            <button [disabled]="!textInputValue || isAwaitingResponse"
                     (click)="onStartGeneration()"
                     class="w-full px-4 py-2 text-white font-medium
                    bg-button
@@ -29,9 +25,11 @@
                    disabled:bg-button-disabled disabled:cursor-not-allowed">
                 Start
             </button>
-            <div *ngIf="imageEnc" class="w-full border border-gray-300 rounded-lg overflow-hidden shadow-md">
-                <img [src]="imageEnc" alt="Image preview"
-                     class="w-full h-auto object-contain">
+            <div *ngIf="imageEnc" class="flex justify-center">
+                <div class="border border-gray-300 rounded-lg overflow-hidden shadow-md">
+                    <img [src]="imageEnc" alt="Generated Image"
+                         class="max-w-[512px] max-h-[512px] object-contain">
+                </div>
             </div>
         </div>
     </div>
