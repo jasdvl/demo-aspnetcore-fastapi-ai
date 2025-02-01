@@ -7,6 +7,7 @@ import { GeneratedImageDto } from '../../interfaces/generated-image.dto';
     selector: 'app-image-generation',
     templateUrl: './image-generation.component.html',
     styleUrls: ['./image-generation.component.css'],
+    standalone: false
 })
 export class ImageGenerationComponent implements OnInit
 {

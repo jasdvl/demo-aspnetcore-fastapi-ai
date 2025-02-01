@@ -8,6 +8,7 @@ import { ImageInterpretationResultDto } from '../../interfaces/image-interpretat
     selector: 'app-image-interpretation',
     templateUrl: './image-interpretation.component.html',
     styleUrls: ['./image-interpretation.component.css'],
+    standalone: false
 })
 export class ImageInterpretationComponent implements OnInit
 {

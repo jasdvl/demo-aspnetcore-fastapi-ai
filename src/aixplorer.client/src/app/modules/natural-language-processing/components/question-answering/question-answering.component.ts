@@ -8,6 +8,7 @@ import { QuestionAnswerResultDto } from '../../interfaces/question-answering-res
     selector: 'app-question-answering',
     templateUrl: './question-answering.component.html',
     styleUrls: ['./question-answering.component.css'],
+    standalone: false
 })
 export class QuestionAnsweringComponent implements OnInit
 {

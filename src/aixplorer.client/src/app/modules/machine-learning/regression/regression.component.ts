@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
     selector: 'app-regression',
     templateUrl: './regression.component.html',
     styleUrls: ['./regression.component.css'],
+    standalone: false
 })
 export class RegressionComponent implements OnInit
 {
