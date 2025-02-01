@@ -15,6 +15,9 @@ export class ImageGenerationComponent implements OnInit
 
     imageEnc: string | null = null;
 
+    // True if the AI is processing a response
+    isAwaitingResponse: boolean = false;
+
     constructor(private router: Router, private apiService: ApiService)
     {
     }
@@ -31,6 +34,8 @@ export class ImageGenerationComponent implements OnInit
     onStartGeneration()
     {
         const requestBody = { prompt: this.textInputValue };
+        this.imageEnc = null;
+        this.isAwaitingResponse = true;
 
         this.apiService.post<GeneratedImageDto>('generative-ai/image-generation', requestBody)
             .subscribe({
@@ -42,6 +47,10 @@ export class ImageGenerationComponent implements OnInit
                 {
                     // Log to console, use a logger service or forward the error to monitoring tools like Sentry
                     console.error('Error during image generation:', error);
+                },
+                complete: () =>
+                {
+                    this.isAwaitingResponse = false;
                 }
             });
     }

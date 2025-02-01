@@ -20,6 +20,9 @@ export class ImageInterpretationComponent implements OnInit
 
     interpretation: string | null = null;
 
+    // True if the AI is processing a response
+    isAwaitingResponse: boolean = false;
+
     constructor(private router: Router, private apiService: ApiService)
     {
     }
@@ -55,6 +58,9 @@ export class ImageInterpretationComponent implements OnInit
                 user_question: this.user_question
             };
 
+            this.interpretation = null;
+            this.isAwaitingResponse = true;
+
             this.apiService.post<ImageInterpretationResultDto>(
                                                         "computer-vision/image-interpretation",
                                                         payload
@@ -66,6 +72,10 @@ export class ImageInterpretationComponent implements OnInit
                 error: (error) =>
                 {
                     // Log to console, use a logger service or forward the error to monitoring tools like Sentry
+                },
+                complete: () =>
+                {
+                    this.isAwaitingResponse = false;
                 }
             });
         };

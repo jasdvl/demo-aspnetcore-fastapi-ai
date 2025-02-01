@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from 'app/core/services/rest-api.service';
 import { QuestionAnswerResultDto } from '../../interfaces/question-answering-result.dto';
+import { MarkdownPipe } from 'ngx-markdown';
 
 @Component({
     selector: 'app-question-answering',
@@ -16,7 +17,10 @@ export class QuestionAnsweringComponent implements OnInit
 
     chatHistory: { question: string, answer: string | null }[] = [];
 
-    constructor(private router: Router, private apiService: ApiService)
+    // True if the AI is processing a response
+    isAwaitingResponse: boolean = false;
+
+    constructor(private router: Router, private apiService: ApiService, private markdownPipe: MarkdownPipe)
     {
     }
 
@@ -38,9 +42,9 @@ export class QuestionAnsweringComponent implements OnInit
         this.chatHistory.push({ question: this.userInput, answer: null });
 
         const payload = { question: this.userInput };
-
+        
         const lastIndex = this.chatHistory.length - 1;
-        /*this.chatHistory[lastIndex].answer = "This is my answer.";*/
+        this.isAwaitingResponse = true;
 
         this.apiService.post<QuestionAnswerResultDto>(
             "nlp/question-answering",
@@ -57,20 +61,13 @@ export class QuestionAnsweringComponent implements OnInit
                 console.error('Error:', error);
                 const lastIndex = this.chatHistory.length - 1;
                 this.chatHistory[lastIndex].answer = 'An error occurred. Please try again.';
+            },
+            complete: () =>
+            {
+                this.isAwaitingResponse = false;
             }
         });
 
         this.userInput = '';
-    }
-
-    formatAnswer(answer: string): string
-    {
-        if (answer.includes('```csharp'))
-        {
-            return answer.replace(/```csharp/g, '<pre><code class="language-csharp">')
-                .replace(/```/g, '</code></pre>');
-        }
-
-        return answer;
     }
 }
