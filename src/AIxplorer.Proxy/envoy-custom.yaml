@@ -12,7 +12,7 @@ static_resources:
                           "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
                           stat_prefix: grpc_json
                           codec_type: AUTO
-                          internal_address_config: # Hier hinzufügen
+                          internal_address_config:
                               unix_sockets: true
                               cidr_ranges:
                                   - address_prefix: "192.168.0.0"
@@ -32,22 +32,22 @@ static_resources:
                                               prefix: "/api/computer-vision/image-interpretation"
                                           route:
                                               cluster: grpc_img_interpretation_service
-                                              timeout: 60s
+                                              timeout: 120s
                                         - match:
                                               prefix: "/computer_vision.ImageInterpretationService/ProcessImage"
                                           route:
                                               cluster: grpc_img_interpretation_service
-                                              timeout: 60s
+                                              timeout: 120s
                                         - match:
                                               prefix: "/api/nlp/question-answering"
                                           route:
                                               cluster: grpc_qna_service
-                                              timeout: 60s
+                                              timeout: 120s
                                         - match:
                                                prefix: "/nlp.QuestionAnsweringService/GetAnswer"
                                           route:
                                                cluster: grpc_qna_service
-                                               timeout: 60s
+                                               timeout: 120s
                                         - match:
                                               prefix: "/api/generative-ai/image-generation"
                                           route:
