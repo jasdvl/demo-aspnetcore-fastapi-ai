@@ -5,11 +5,7 @@
 <br>
 <br>
 <br>
-<br>
-<br>
 ![Image Generation](./assets/screenshots/image_gen_sample.png)  
-<br>
-<br>
 <br>
 <br>
 <br>
