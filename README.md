@@ -2,64 +2,160 @@
 
 ![AIxplorer](./assets/architecture-overview.png)
 
+## Screenshots
+
+Check out the [screenshots](./screenshots.md) for a visual overview.
+
 ## Project Overview
 
-**AIxplorer** is a sample application designed to demonstrate the integration of artificial intelligence (AI) in a modern web application. The project features an Angular-based frontend (`aixplorer.client`) and an ASP.NET Core backend (`AIxplorer.Server`).
+**AIxplorer** is a sample application showcasing the integration of artificial intelligence (AI) in a modern web environment.  
+The project consists of an Angular-based frontend (aixplorer.client) and multiple microservices (ASP.NET Core, FastAPI) that interact with AI models such as Phi-3.5 and Stable Diffusion.  
 
-**Note:**  
-This project is for demonstration purposes only and is not intended for production use. Ensure that sensitive information is stored securely (e.g., in a Key Store).
+The application supports:  
+- **Image analysis, interpretation, and recognition**  
+- **Natural language processing (NLP) chat**  
+- **Text-to-image generation**  
+
+> **Note:**  
+> Future updates will primarily focus on refactoring efforts, such as addressing compiler warnings and improving code comments. See the [TODO List](#todo-list) for planned improvements.  
+> 
+> This project is for demonstration purposes only and is not intended for production use.  
+> To simplify the setup, HTTP (not HTTPS) is used for communication between components, omitting TLS encryption. In a production environment, HTTPS should always be implemented to ensure data security.
+> 
+> The AI models are not included in this repository. They can be downloaded from Hugging Face. For details, see [Download AI Models](#download-ai-models).  
+> Additionally, while this project currently integrates Phi-3.5 and Stable Diffusion models, other AI models can also be integrated as long as the existing interfaces 
+> are compatible with the new models or can be adapted. The integration process has been tested with the mentioned models but can be extended to include other models based 
+> on the requirements of your application.
 
 ### Key Components
 
-1. **AIxplorer.Server (ASP.NET Core)**  
-   The backend that handles AI processing, and provides an API for the frontend to interact with.
+1. **`aixplorer.client` (Angular)**  
+   The **frontend** of the application, built with Angular, providing a simple and intuitive UI for interacting with AI-driven services.  
 
-2. **aixplorer.client (Angular)**  
-   The frontend of the application built with Angular, which allows users to interact with the backend services.
+2. **`AIxplorer.Proxy` (Envoy Proxy)**  
+   [Envoy Proxy](https://www.envoyproxy.io/) is used as a gateway to route requests between services efficiently.  
+
+3. **`AIxplorer.Vision.Interpretation` (ASP.NET Core)**  
+   A **computer vision service** that handles **image analysis and interpretation**.  
+   - **Developed and tested using Phi-3.5 Vision**.  
+
+4. **`AIxplorer.Nlp.QnA` (ASP.NET Core)**  
+   An **NLP chatbot** capable of answering questions and engaging in contextual conversations.  
+   - **Developed and tested using Phi-3.5 Mini**.  
+
+5. **`AIxplorer.GenAI.ImageGen` (FastAPI, Python)**  
+   An **AI-based image generation service** using the **Stable Diffusion** model to create images from text prompts.
 
 ## Prerequisites
 
-- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
+- [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0)
 - [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) or [Visual Studio Code](https://code.visualstudio.com/)
-- [Docker](https://www.docker.com/) (optional, for containerization)
+- [Docker](https://www.docker.com/)
+- [Python](#python-setup-instructions-windows)
+- [Protocol Buffer Compiler](https://grpc.io/docs/protoc-installation/) (optional, for generation of new descriptor sets for Envoy)
 
-## Setting up HTTPS Certificates (Windows)
+### Python Setup Instructions (Windows)
 
-To enable HTTPS support for `AIxplorer.Server` when running in Docker, you need to create and trust an SSL certificate. Follow these steps:
+1. Install Python  
+   Make sure you have Python 3.9 or later installed. You can download it from [python.org](https://www.python.org/downloads/windows/).
 
-1. **Create a development certificate** (if you haven't already):
-
-    ```bash
-    dotnet dev-certs https -ep %APPDATA%\ASP.NET\Https\AIxplorer.Server.pfx -p <your_password_here>
-    dotnet dev-certs https --trust
+2. Navigate to the Project Folder
+   
+    ```
+    cd src\AIxplorer.GenAI.ImageGen
     ```
 
-This mounts the certificate from your local machine into the container during the Docker build and run process, ensuring that the ASP.NET Core server in the container can use it for HTTPS connections.
+3. Create a Virtual Environment  
+   It is recommended to use a virtual environment to manage dependencies. Run the following commands:
+   ```
+   python -m venv imagegen_env
+   ```
+
+4. Activate the Virtual Environment
+   
+     ```
+     .\imagegen_env\Scripts\activate
+     ```
+
+5. Install Dependencies
+   Install the required Python libraries from the `requirements.txt` file:
+   ```
+   pip install -r requirements.txt
+   ```
 
 ## Getting Started
 
-### Option 1: Start the Application with dotnet and Angular Commands
+### Clone the repository:
 
-1. Clone the repository:
+```
+git clone https://github.com/jasdvl/demo-aspnetcore-fastapi-ai.git
+```
+
+### Download AI models
+
+Stable Diffusion 3.5 Medium (~ 80 GB)
+
+```git clone https://huggingface.co/stabilityai/stable-diffusion-3.5-medium```
+
+Phi 3.5 Vision (~ 10 GB)
+
+```git clone https://huggingface.co/microsoft/Phi-3.5-vision-instruct```
+
+Phi 3.5 Mini (~ 10 GB)
+
+```git clone https://huggingface.co/microsoft/Phi-3.5-mini-instruct```
+
+### Configure model paths
+
+1. **AIxplorer.GenAI.ImageGen**
+   
+   Rename ```.env.example``` to ```.env```. Set the Stable Diffusion model path and adjust the server host and port to suit your needs.  
+   
+2. **AIxplorer.Vision.Interpretation (ASP.NET Core)**
+   
+   Adjust the ```ModelPath``` setting in ```appsettings.Development.json```.
+
+3. **AIxplorer.Nlp.QnA (ASP.NET Core)**
+   
+   Adjust the ```ModelPath``` setting in ```appsettings.Development.json```.
+
+### Start the Application
+
+1. Start the Envoy Proxy
+   
+   Navigate to the Envoy project directory:
 
     ```bash
-    git clone https://github.com/jasdvl/sample-aspnetcore-ai.git
+    cd demo-aspnetcore-fastapi-ai/src/AIxplorer.Proxy
     ```
 
-2. Navigate to the project directory:
-
-    ```bash
-    cd sample-aspnetcore-ai
+   Pull the Envoy Docker image and start the Envoy proxy with the custom configuration file. In a new terminal window, run the following commands:  
+   
+    ```
+    docker pull envoyproxy/envoy:v1.33-latest
     ```
 
-3. Navigate to the Angular frontend directory and install dependencies:
+    Start the Envoy proxy:
+
+    ```
+    docker run --rm -it ^
+    -v %cd%\envoy-custom.yaml:/etc/envoy/envoy.yaml ^
+    -v %cd%\grpc_service_descriptors.pb:/etc/envoy/grpc_service_descriptors.pb ^
+    -p 9901:9901 -p 10000:10000 ^
+    --name envoy-v1.33 envoyproxy/envoy:v1.33-latest ^
+    -c /etc/envoy/envoy.yaml --log-level debug
+    ```
+
+    This will start the Envoy proxy and bind it to ports 9901 and 10000, with the configuration specified in envoy-custom.yaml.
+
+2. Navigate to the Angular frontend directory and install dependencies:
 
     ```bash
-    cd aixplorer.client
+    cd ../aixplorer.client
     npm install
     ```
 
-4. Start the Angular application:
+3. Start the Angular application:
 
     ```bash
     ng serve
@@ -67,64 +163,68 @@ This mounts the certificate from your local machine into the container during th
 
    This will start the Angular frontend on `http://localhost:4200` by default.
 
-5. In a new terminal window, navigate to the ASP.NET Core backend directory:
+4. In a new terminal window, navigate to the **ASP.NET Core backend directories** and restore the project dependencies.  
+   You can do this for both `AIxplorer.Vision.Interpretation` and `AIxplorer.Nlp.QnA`.
 
     ```bash
-    cd ../AIxplorer.Server
-    ```
-
-6. Restore the ASP.NET Core project dependencies:
-
-    ```bash
+    cd ../AIxplorer.Vision.Interpretation
     dotnet restore
+    dotnet run  
     ```
-
-7. Run the ASP.NET Core backend application:
 
     ```bash
-    dotnet run
+    cd ../AIxplorer.Nlp.QnA
+    dotnet restore
+    dotnet run  
     ```
 
-   This will start the ASP.NET Core backend on `https://localhost:5001` by default.
+    This will start the ASP.NET Core microservices, accessible at `https://localhost:5220` and `https://localhost:5230`.
 
-Now, your Angular frontend and ASP.NET Core backend should be running, with the frontend accessible via `http://localhost:4200` and the backend via `https://localhost:5001`.
+5. In a new terminal window, navigate to the **AIxplorer.GenAI.ImageGen** directory and start the FastAPI application using Uvicorn:
+   
+    ```
+    cd ..\AIxplorer.GenAI.ImageGen
+    ```
 
-### Option 2: Start All Services with Docker Compose
+    ```
+    uvicorn app.main:app --host 0.0.0.0 --port 7600 --reload --log-level debug
+    ```
 
-1. Clone the repository if you haven’t already:
+    This will start the FastAPI service on `http://localhost:7600`.
+
+## Creating a proto descriptor set
+
+When modifying or adding `.proto` files, it's important to update the protobuf descriptor set for Envoy to ensure proper routing and processing of gRPC requests.  
+Follow these steps to do so:
+
+1. Navigate to the `src` directory:
 
     ```bash
-    git clone https://github.com/jasdvl/sample-aspnetcore-ai.git
+    cd demo-aspnetcore-fastapi-ai/src
     ```
 
-2. Navigate to the project directory:
-
-    ```bash
-    cd sample-aspnetcore-ai/src
+2. Generate the updated `.proto` descriptor set by running the following `protoc` command:
+   
+    ```
+    protoc -I.\AIxplorer.Grpc.Contracts --include_imports --include_source_info ^
+    --descriptor_set_out=.\AIxplorer.Proxy\grpc_service_descriptors.pb ^
+    .\AIxplorer.Grpc.Contracts\computer_vision\image_interpretation_service.proto ^
+    .\AIxplorer.Grpc.Contracts\nlp\question_answering_service.proto
     ```
 
-3. Start all services (including database and microservices) with Docker Compose:
+> **Note:** For further information, refer to the Envoy documentation on the [gRPC-JSON Transcoder Filter](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/grpc_json_transcoder_filter).
 
-    ```bash
-    docker-compose up --build -d
-    ```
+### Note on Google Protobuf Files
 
-This command will build and start the entire application stack.
+To simplify handling, the Google Protobuf files (`annotations.proto` and `http.proto`) have been copied directly into the `AIxplorer.Grpc.Contracts` C# library. While this approach makes the integration straightforward, it is not considered clean or maintainable for larger projects.
+A better alternative would be to reference these files from a centralized location, such as a local clone of the official Google APIs repository.
+This would provide better maintainability and alignment with best practices.
 
-
-## Project Structure
-
-- `AIxplorer.Server`: Blazor Web App
-
-- `aixplorer.client`: gRPC Service
 
 ## TODO List
 
-### Priority 1
-
-### Priority 2
-
-### Priority 3
+- Fix compiler warnings
+- Add comments where they are still missing
 
 ## Branching Strategy
 
