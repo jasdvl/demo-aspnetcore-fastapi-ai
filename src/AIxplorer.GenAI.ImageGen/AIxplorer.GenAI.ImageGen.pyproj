@@ -11,7 +11,8 @@
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <LaunchProvider>Web launcher</LaunchProvider>
-    <WebBrowserUrl>http://localhost</WebBrowserUrl>
+    <WebBrowserUrl>
+    </WebBrowserUrl>
     <OutputPath>.</OutputPath>
     <SuppressCollectPythonCloudServiceFiles>true</SuppressCollectPythonCloudServiceFiles>
     <Name>AIxplorer.GenAI.ImageGen</Name>
@@ -21,7 +22,8 @@
     </PythonRunWebServerCommandEnvironment>
     <PythonDebugWebServerCommandEnvironment>
     </PythonDebugWebServerCommandEnvironment>
-    <WebBrowserPort>7600</WebBrowserPort>
+    <WebBrowserPort>
+    </WebBrowserPort>
     <Environment>
     </Environment>
   </PropertyGroup>
