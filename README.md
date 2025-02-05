@@ -20,8 +20,9 @@ The application supports:
 > Future updates will primarily focus on refactoring efforts, such as addressing compiler warnings and improving code comments. See the [TODO List](#todo-list) for planned improvements.  
 > 
 > This project is for demonstration purposes only and is not intended for production use.  
-> To simplify the setup, HTTP (not HTTPS) is used for communication between components, omitting TLS encryption.
-> For a production-grade application, additional improvements are necessary, such as secure authentication, centralized logging, robust error handling, and enhanced security measures (e.g., enforcing HTTPS).
+> HTTP (not HTTPS) is used for communication between components within a trusted network, such as the Envoy proxy and microservices, where TLS encryption is not necessary.  
+> However, for production use, it's crucial to secure the connection between the user and the Angular app, as well as potentially between Angular and the Envoy proxy, using HTTPS and proper encryption.  
+> Furthermore, for a production-grade application, additional improvements are necessary, such as secure authentication, centralized logging, and robust error handling.  
 > 
 > The AI models are not included in this repository. They can be downloaded from Hugging Face. For details, see [Download AI Models](#download-ai-models).  
 > Additionally, while this project currently integrates Phi-3.5 and Stable Diffusion models, other AI models can also be integrated as long as the existing interfaces 
