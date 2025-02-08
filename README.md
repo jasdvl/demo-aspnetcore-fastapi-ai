@@ -17,17 +17,20 @@ The application supports:
 - **Text-to-image generation**  
 
 > **Note:**  
-> Future updates will primarily focus on refactoring efforts, such as addressing compiler warnings and improving code comments. See the [TODO List](#todo-list) for planned improvements.  
 > 
 > This project is for demonstration purposes only and is not intended for production use.  
 > HTTP (not HTTPS) is used for communication between components within a trusted network, such as the Envoy proxy and microservices, where TLS encryption is not necessary.  
-> However, for production use, it's crucial to secure the connection between the user and the Angular app, as well as potentially between Angular and the Envoy proxy, using HTTPS and proper encryption.  
+> However, for production use, it's crucial to secure the connection between the user and the Angular app, as well as potentially between Angular and the Envoy proxy, using HTTPS 
+> and proper encryption.  
 > Furthermore, for a production-grade application, additional improvements are necessary, such as secure authentication, centralized logging, and robust error handling.  
 > 
 > The AI models are not included in this repository. They can be downloaded from Hugging Face. For details, see [Download AI Models](#download-ai-models).  
 > Additionally, while this project currently integrates Phi-3.5 and Stable Diffusion models, other AI models can also be integrated as long as the existing interfaces 
 > are compatible with the new models or can be adapted. The integration process has been tested with the mentioned models but can be extended to include other models based 
 > on the requirements of your application.
+>
+> Future updates will primarily focus on refactoring efforts, such as addressing compiler warnings and improving code comments. See the [TODO List](#todo-list) for planned 
+> improvements.
 
 ### Key Components
 
@@ -46,7 +49,8 @@ The application supports:
    - **Developed and tested using Phi-3.5 Mini**.  
 
 5. **`AIxplorer.GenAI.ImageGen` (FastAPI, Python)**  
-   An **AI-based image generation service** using the **Stable Diffusion** model to create images from text prompts.
+   An **AI-based image generation service** using the **Stable Diffusion** model to create images from text prompts.  
+   - **Developed and tested using Stable Diffusion 3.5 Medium**.  
 
 ## Prerequisites
 
@@ -125,7 +129,7 @@ Phi 3.5 Mini (~ 10 GB)
 
 1. Start the Envoy Proxy
    
-   Navigate to the Envoy project directory:
+   Open a new terminal window and navigate to the Envoy project directory:
 
     ```bash
     cd demo-aspnetcore-fastapi-ai/src/AIxplorer.Proxy
@@ -150,23 +154,17 @@ Phi 3.5 Mini (~ 10 GB)
 
     This will start the Envoy proxy and bind it to ports 9901 and 10000, with the configuration specified in envoy-custom.yaml.
 
-2. Navigate to the Angular frontend directory and install dependencies:
+2. Navigate to the Angular frontend directory, install dependencies, and start the Angular application:
 
     ```bash
     cd ../aixplorer.client
     npm install
-    ```
-
-3. Start the Angular application:
-
-    ```bash
     ng serve
     ```
 
    This will start the Angular frontend on `http://localhost:4200` by default.
 
-4. In a new terminal window, navigate to the **ASP.NET Core backend directories** and restore the project dependencies.  
-   You can do this for both `AIxplorer.Vision.Interpretation` and `AIxplorer.Nlp.QnA`.
+3. Navigate to the **AIxplorer.Vision.Interpretation** and **AIxplorer.Nlp.QnA** directories and restore the project dependencies:
 
     ```bash
     cd ../AIxplorer.Vision.Interpretation
@@ -182,7 +180,7 @@ Phi 3.5 Mini (~ 10 GB)
 
     This will start the ASP.NET Core microservices, accessible at `https://localhost:5220` and `https://localhost:5230`.
 
-5. In a new terminal window, navigate to the **AIxplorer.GenAI.ImageGen** directory and start the FastAPI application using Uvicorn:
+4. Navigate to the **AIxplorer.GenAI.ImageGen** directory and start the FastAPI application using Uvicorn:
    
     ```
     cd ..\AIxplorer.GenAI.ImageGen
