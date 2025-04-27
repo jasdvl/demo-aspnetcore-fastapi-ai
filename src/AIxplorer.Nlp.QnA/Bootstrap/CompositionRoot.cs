@@ -77,7 +77,7 @@ public class CompositionRoot
             options.AddPolicy("AllowOrigin",
                 builder =>
                 {
-                    builder.WithOrigins("http://localhost:4200", "http://localhost:10000", "http://host.docker.internal:10000")
+                    builder.WithOrigins("http://localhost:6700", "http://localhost:10000", "http://host.docker.internal:10000")
                             .AllowAnyMethod()
                             .AllowAnyHeader()
                             .SetPreflightMaxAge(preflightMaxAge);

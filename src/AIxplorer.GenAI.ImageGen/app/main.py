@@ -26,7 +26,7 @@ app = FastAPI(lifespan=lifespan)
 
 # CORS middleware
 origins = [
-    "http://localhost:4200",
+    "http://localhost:6700",
     "http://localhost:10000",
     "http://host.docker.internal:10000"
 ]

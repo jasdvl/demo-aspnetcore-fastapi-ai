@@ -53,11 +53,16 @@ static_resources:
                                           route:
                                               cluster: image_generation_service
                                               timeout: 600s
+                                        - match:
+                                              prefix: "/"
+                                          route:
+                                              cluster: web_server
+                                              timeout: 60s
                                     typed_per_filter_config:
                                         envoy.filters.http.cors:
                                             "@type": type.googleapis.com/envoy.extensions.filters.http.cors.v3.CorsPolicy
                                             allow_origin_string_match:
-                                                - exact: "http://localhost:4200"
+                                                - exact: "http://localhost:6700"
                                             allow_methods: "GET, POST, OPTIONS"
                                             allow_headers: "content-type, x-grpc-web, origin"
                                             expose_headers: "grpc-status, content-type"
@@ -126,6 +131,20 @@ static_resources:
                                   socket_address:
                                       address: host.docker.internal
                                       port_value: 7600
+        - name: web_server
+          connect_timeout: 1s
+          type: LOGICAL_DNS
+          lb_policy: ROUND_ROBIN
+          dns_lookup_family: V4_ONLY
+          load_assignment:
+              cluster_name: web_server
+              endpoints:
+                  - lb_endpoints:
+                        - endpoint:
+                              address:
+                                  socket_address:
+                                      address: host.docker.internal
+                                      port_value: 6700
 admin:
     access_log_path: "/tmp/admin_access.log"
     address:
