@@ -127,34 +127,36 @@ Phi 3.5 Mini (~ 10 GB)
 
 ### Start the Application
 
-1. Start the Envoy Proxy
+First start the Envoy Proxy:
    
-   Open a new terminal window and navigate to the Envoy project directory:
+Open a new terminal window and navigate to the Envoy project directory:
 
-    ```bash
-    cd demo-aspnetcore-fastapi-ai/src/AIxplorer.Proxy
-    ```
+```bash
+cd demo-aspnetcore-fastapi-ai/src/AIxplorer.Proxy
+```
 
-   Pull the Envoy Docker image and start the Envoy proxy with the custom configuration file. In a new terminal window, run the following commands:  
-   
-    ```
-    docker pull envoyproxy/envoy:v1.33-latest
-    ```
+Pull the Envoy Docker image and start the Envoy proxy with the custom configuration file. In a new terminal window, run the following commands:  
 
-    Start the Envoy proxy:
+```
+docker pull envoyproxy/envoy:v1.33-latest
+```
 
-    ```
-    docker run --rm -it ^
-    -v %cd%\envoy-custom.yaml:/etc/envoy/envoy.yaml ^
-    -v %cd%\grpc_service_descriptors.pb:/etc/envoy/grpc_service_descriptors.pb ^
-    -p 9901:9901 -p 10000:10000 ^
-    --name envoy-v1.33 envoyproxy/envoy:v1.33-latest ^
-    -c /etc/envoy/envoy.yaml --log-level debug
-    ```
+Start the Envoy proxy:
 
-    This will start the Envoy proxy and bind it to ports 9901 and 10000, with the configuration specified in envoy-custom.yaml.
+```
+docker run --rm -it ^
+-v %cd%\envoy-custom.yaml:/etc/envoy/envoy.yaml ^
+-v %cd%\grpc_service_descriptors.pb:/etc/envoy/grpc_service_descriptors.pb ^
+-p 9901:9901 -p 10000:10000 ^
+--name envoy-v1.33 envoyproxy/envoy:v1.33-latest ^
+-c /etc/envoy/envoy.yaml --log-level debug
+```
 
-2. Navigate to the Angular frontend directory, install dependencies, and start the Angular application:
+This starts the Envoy proxy, binding it to ports 9901 and 10000, using the configuration specified in envoy-custom.yaml.
+
+#### Option 1: Start the Application from the Command Line
+
+1. Navigate to the Angular frontend directory, install dependencies, and start the Angular application:
 
     ```bash
     cd ../aixplorer.client
@@ -162,9 +164,9 @@ Phi 3.5 Mini (~ 10 GB)
     ng serve
     ```
 
-   This will start the Angular frontend on `http://localhost:4200` by default.
+   This starts the Angular development server on port 6700.
 
-3. Navigate to the **AIxplorer.Vision.Interpretation** and **AIxplorer.Nlp.QnA** directories and restore the project dependencies:
+2. Navigate to the **AIxplorer.Vision.Interpretation** and **AIxplorer.Nlp.QnA** directories and restore the project dependencies:
 
     ```bash
     cd ../AIxplorer.Vision.Interpretation
@@ -178,9 +180,9 @@ Phi 3.5 Mini (~ 10 GB)
     dotnet run  
     ```
 
-    This will start the ASP.NET Core microservices, accessible at `https://localhost:5220` and `https://localhost:5230`.
+    This will start the ASP.NET Core microservices, accessible at `http://localhost:5220` and `http://localhost:5230`.
 
-4. Navigate to the **AIxplorer.GenAI.ImageGen** directory and start the FastAPI application using Uvicorn:
+3. Navigate to the **AIxplorer.GenAI.ImageGen** directory and start the FastAPI application using Uvicorn:
    
     ```
     cd ..\AIxplorer.GenAI.ImageGen
@@ -191,6 +193,16 @@ Phi 3.5 Mini (~ 10 GB)
     ```
 
     This will start the FastAPI service on `http://localhost:7600`.
+
+5. Start the application on `http://localhost:10000`
+
+#### Option 2: Start the Application in Visual Studio
+
+Configure multiple startup projects and select `AIxplorer.Vision.Interpretation`, `AIxplorer.Nlp.QnA`, `AIxplorer.GenAI.ImageGen`, and `aixplorer.client`.
+
+**Note:**  
+> If you're unfamiliar with how to set multiple startup projects in Visual Studio, 
+> you can check the official [Visual Studio documentation](https://learn.microsoft.com/en-us/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2022).
 
 ## Creating a proto descriptor set
 
