@@ -8,5 +8,25 @@ services:
         volumes:
             - ./AIxplorer.Proxy/envoy-custom.yaml:/etc/envoy/envoy.yaml
             - ./AIxplorer.Proxy/grpc_service_descriptors.pb:/etc/envoy/grpc_service_descriptors.pb
-
-        
+    aixplorer.nlp.qna:
+        container_name: AIxplorer.Nlp.QnA
+        restart: always
+        ports:
+            - "5235:5235"
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - TARGET_ENVIRONMENT=Docker
+        volumes:
+            - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+            - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+    aixplorer.vision.interpretation:
+        container_name: AIxplorer.Vision.Interpretation
+        restart: always
+        ports:
+            - "5225:5225"
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - TARGET_ENVIRONMENT=Docker
+        volumes:
+            - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+            - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro

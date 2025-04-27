@@ -3,3 +3,11 @@ services:
         build:
           context: .
           dockerfile: AIxplorer.Proxy/Dockerfile
+    aixplorer.nlp.qna:
+        build:
+          context: .
+          dockerfile: AIxplorer.Nlp.QnA/Dockerfile
+    aixplorer.vision.interpretation:
+        build:
+          context: .
+          dockerfile: AIxplorer.Vision.Interpretation/Dockerfile
